@@ -3,7 +3,7 @@ import {connectWallet} from "./lib/wallet.js";
 import {createPaymentFetch, readSettlement, formatUsdc} from "./lib/x402Client.js";
 import logo from "./images/bejibun.png";
 
-const RESOURCE_URL = import.meta.env.VITE_RESOURCE_SERVER_URL || "http://localhost:4021";
+const RESOURCE_URL = import.meta.env.VITE_RESOURCE_SERVER_URL || "http://localhost:3000";
 
 // Two schemes are wired up to a one-click browser flow because both are pure
 // off-chain signatures (no gas, no escrow funding tx needed from the buyer).
