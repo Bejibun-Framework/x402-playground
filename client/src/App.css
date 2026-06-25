@@ -810,3 +810,65 @@ code {
     padding: 8px 12px;
     line-height: 1.5;
 }
+
+/* ── Network Tabs (EVM / Solana selector) ───────────────────────────────── */
+.network-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.network-tab {
+    flex: 1;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.network-tab:hover {
+    border-color: var(--brand);
+    color: var(--text);
+}
+
+.network-tab--active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+}
+
+/* ── Wallet Area ────────────────────────────────────────────────────────── */
+.wallet-area {
+    margin-bottom: 16px;
+}
+
+.wallet-connected {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wallet-pill--inline {
+    display: inline-flex;
+}
+
+.btn--sm {
+    font-size: 12px;
+    padding: 4px 10px;
+}
+
+.sol-connect-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.sol-connect-row .btn {
+    flex: 1;
+    min-width: 120px;
+}

@@ -12,11 +12,10 @@ function getInjectedProvider() {
 }
 
 /**
- * Connects to the user's injected wallet and makes sure it's on Base Sepolia,
- * the testnet this demo settles payments on. Returns a viem WalletClient
- * plus the connected address.
+ * Connects to the user's injected EVM wallet and switches to Base Sepolia.
+ * Returns a viem WalletClient plus the connected address.
  */
-export async function connectWallet() {
+export async function connectEvmWallet() {
     const provider = getInjectedProvider();
 
     const walletClient = createWalletClient({
@@ -27,27 +26,29 @@ export async function connectWallet() {
     const [address] = await walletClient.requestAddresses();
 
     try {
-        await walletClient.switchChain({id: baseSepolia.id});
+        await walletClient.switchChain({id: 8453});
     } catch (err) {
-        const code = err?.code ?? err?.cause?.code;
-        if (code === 4902) {
-            // Wallet doesn't know about Base Sepolia yet — offer to add it.
-            await provider.request({
-                method: "wallet_addEthereumChain",
-                params: [
-                    {
-                        chainId: "0x14a34", // 84532
-                        chainName: "Base Sepolia",
-                        nativeCurrency: {name: "Sepolia Ether", symbol: "ETH", decimals: 18},
-                        rpcUrls: ["https://sepolia.base.org"],
-                        blockExplorerUrls: ["https://sepolia.basescan.org"],
-                    },
-                ],
-            });
-        } else {
-            throw err;
-        }
+        // const code = err?.code ?? err?.cause?.code;
+        // if (code === 4902) {
+        //     await provider.request({
+        //         method: "wallet_addEthereumChain",
+        //         params: [
+        //             {
+        //                 chainId: 8453,
+        //                 chainName: "Base Sepolia",
+        //                 nativeCurrency: {name: "Sepolia Ether", symbol: "ETH", decimals: 18},
+        //                 rpcUrls: ["https://sepolia.base.org"],
+        //                 blockExplorerUrls: ["https://sepolia.basescan.org"],
+        //             },
+        //         ],
+        //     });
+        // } else {
+        //     throw err;
+        // }
     }
 
     return {walletClient, address};
 }
+
+// Keep the old name as an alias for backward compatibility.
+export const connectWallet = connectEvmWallet;

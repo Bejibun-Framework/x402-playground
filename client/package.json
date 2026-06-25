@@ -9,15 +9,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@solana/kit": "^6.10.0",
+    "@solana/wallet-adapter-base": "^0.9.27",
+    "@solana/wallet-adapter-walletconnect": "^0.1.21",
+    "@solana/web3.js": "^1.98.4",
+    "@wallet-standard/app": "^1.1.1",
     "@x402/core": "^2.3.0",
     "@x402/evm": "^2.9.0",
     "@x402/fetch": "^2.1.0",
+    "@x402/svm": "^2.16.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "viem": "^2.21.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.4.0"
+    "buffer": "^6.0.3",
+    "vite": "^5.4.0",
+    "vite-plugin-node-polyfills": "^0.28.0"
   }
 }

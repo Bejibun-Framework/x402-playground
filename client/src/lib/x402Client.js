@@ -1,40 +1,47 @@
 import {x402Client, x402HTTPClient} from "@x402/core/client";
 import {ExactEvmScheme} from "@x402/evm/exact/client";
 import {UptoEvmScheme} from "@x402/evm/upto/client";
+import {ExactSvmScheme} from "@x402/svm/exact/client";
 import {wrapFetchWithPayment} from "@x402/fetch";
 
-// Must match the network the server registered in server/index.js.
-const NETWORK = "eip155:84532"; // Base Sepolia
+const EVM_NETWORK = "eip155:8453"; // Base Sepolia
+const SOLANA_MAINNET = "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp";
 
 /**
- * Builds a payment-aware fetch function bound to the connected wallet.
+ * Builds a payment-aware fetch function.
  *
- * `onEvent` is called at each step of the payment lifecycle so the UI can
- * render a live transcript of the protocol exchange (this is optional —
- * x402Client's hooks exist for logging/analytics/guardrails, not just demos).
+ * Pass either `evmSigner` (EVM wallet via viem) or `svmSigner` (Solana wallet
+ * via toSolanaSigner). Only the relevant network's scheme is registered, so
+ * the client automatically selects the right payment option from the server's
+ * 402 response.
  */
-export function createPaymentFetch({walletClient, address, onEvent}) {
-    // x402's EVM scheme just needs an object that can produce an address and
-    // sign EIP-712 typed data — any wallet client satisfies that shape.
-    const signer = {
-        address,
-        signTypedData: (message) =>
-            walletClient.signTypedData({
-                account: address,
-                domain: message.domain,
-                types: message.types,
-                primaryType: message.primaryType,
-                message: message.message,
-            }),
-    };
+export function createPaymentFetch({walletClient, address, svmSigner, onEvent}) {
+    const client = new x402Client();
 
-    // Both `exact` and `upto` are pure off-chain signatures (EIP-712, no gas,
-    // no on-chain transaction from the buyer) so the same signer covers both.
-    // wrapFetchWithPayment reads the scheme out of the server's 402 response
-    // and picks whichever registered scheme matches automatically.
-    const client = new x402Client()
-        .register(NETWORK, new ExactEvmScheme(signer))
-        .register(NETWORK, new UptoEvmScheme(signer));
+    if (walletClient && address) {
+        // EVM: exact + upto — both use EIP-712 off-chain signatures, no gas.
+        const evmSigner = {
+            address,
+            signTypedData: (message) =>
+                walletClient.signTypedData({
+                    account: address,
+                    domain: message.domain,
+                    types: message.types,
+                    primaryType: message.primaryType,
+                    message: message.message,
+                }),
+        };
+        client
+            .register(EVM_NETWORK, new ExactEvmScheme(evmSigner))
+            .register(EVM_NETWORK, new UptoEvmScheme(evmSigner));
+    }
+
+    if (svmSigner) {
+        // SVM: exact — builds a Solana transfer tx, signed by the user's wallet.
+        const rpcUrl =
+            import.meta.env.VITE_SOLANA_RPC || "https://solana-rpc.publicnode.com";
+        client.register(SOLANA_MAINNET, new ExactSvmScheme(svmSigner, {rpcUrl}));
+    }
 
     client
         .onBeforePaymentCreation(async (ctx) => {
