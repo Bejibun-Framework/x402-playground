@@ -7,7 +7,6 @@ import {getWallets} from "@wallet-standard/app";
 const SOLANA_MAINNET_CHAIN = "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp";
 
 // --- Phantom ----------------------------------------------------------------
-
 export function getPhantom() {
     const p = window.phantom?.solana ?? (window.solana?.isPhantom ? window.solana : null);
     if (!p) throw new Error("Phantom wallet not found. Install the Phantom extension.");
@@ -21,7 +20,6 @@ export async function connectPhantom() {
 }
 
 // --- WalletConnect (Solana) -------------------------------------------------
-
 export async function connectSolanaWalletConnect() {
     const adapter = new WalletConnectWalletAdapter({
         network: WalletAdapterNetwork.Mainnet,
@@ -41,7 +39,6 @@ export async function connectSolanaWalletConnect() {
 }
 
 // --- MetaMask (Wallet Standard / Solana) ------------------------------------
-
 function findStandardWallet(name) {
     return getWallets()
         .get()

@@ -4,7 +4,7 @@ import {UptoEvmScheme} from "@x402/evm/upto/client";
 import {ExactSvmScheme} from "@x402/svm/exact/client";
 import {wrapFetchWithPayment} from "@x402/fetch";
 
-const EVM_NETWORK = "eip155:8453"; // Base Sepolia
+const EVM_NETWORK = "eip155:8453";
 const SOLANA_MAINNET = "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp";
 
 /**
