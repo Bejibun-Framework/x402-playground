@@ -5,8 +5,8 @@
   "type": "module",
   "description": "Express resource server paywalled with x402 v2 (Base Sepolia + Solana, USDC)",
   "scripts": {
-    "dev": "node --watch index.js",
-    "start": "node index.js"
+    "dev": "node --watch index.ts",
+    "start": "node index.ts"
   },
   "dependencies": {
     "@coinbase/x402": "^2.1.0",

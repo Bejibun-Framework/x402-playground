@@ -118,7 +118,7 @@ for the escrow deposit in the batch-settlement script) and test USDC:
   want to price the same endpoint in more than one currency/network/scheme.
 - `setSettlementOverrides(res, { amount })` accepts raw atomic units, a
   percentage string (`"50%"`), or a dollar string (`"$0.05"`) — see
-  `server/index.js` for the `upto` example.
+  `server/index.ts` for the `upto` example.
 
 ## Package versions used
 

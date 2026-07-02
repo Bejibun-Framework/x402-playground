@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Standalone Node client demonstrating the x402 batch-settlement scheme",
   "scripts": {
-    "start": "node batch-settlement-client.mjs"
+    "start": "node batch-settlement-client.ts"
   },
   "dependencies": {
     "@x402/core": "^2.3.0",
